@@ -38,7 +38,11 @@ const userSchema=new Mongoose.Schema({
     following:[{
         type:Mongoose.Schema.ObjectId,
         ref:"users"
-    }]
+    }],
+    seller:{
+        type:Boolean,
+        default:false
+    }
 });
 
 

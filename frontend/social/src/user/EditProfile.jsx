@@ -10,6 +10,8 @@ import {read,update} from './user-api'
 import {Redirect} from 'react-router-dom';
 import PublishIcon from '@material-ui/icons/Publish';
 import Avatar from '@material-ui/core/Avatar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch'
 import profileImage from '../assets/images/Anonymous.png'
 
 
@@ -44,6 +46,18 @@ const styles = theme => ({
     width: 60,
     height: 60,
     margin: 'auto'
+  },
+  isSeller:{
+    display:"block",
+    margin:"10px auto"
+  },
+  subheading: {
+    marginTop: theme.spacing.unit * 2,
+    color: theme.palette.openTitle
+  },
+  label:{
+    marginRight:"20px",
+    fontWeight:"bold"
   }
 })
 
@@ -56,6 +70,7 @@ class EditProfile extends Component {
       password: '',
       about:'',
       redirectToProfile: false,
+      seller:false,
       error: ''
     }
     this.match = match
@@ -73,7 +88,7 @@ class EditProfile extends Component {
          this.photoUrl = data._id
     ? `http://localhost:3001/api/v1/users/photo/${data._id}?${new Date().getTime()}`
     : profileImage;
-        this.setState({id: data._id,name: data.name, email: data.email,about:data.about})
+        this.setState({id: data._id,name: data.name, email: data.email,about:data.about,seller:data.seller})
       }
     })
   }
@@ -87,7 +102,10 @@ class EditProfile extends Component {
       if (data.error) {
         this.setState({error: data.error})
       } else {
-        this.setState({'userId': data._id, 'redirectToProfile': true})
+        auth.updateUse(data,()=>{
+          this.setState({'userId': data._id, 'redirectToProfile': true})
+        })
+        
       }
     })
   }
@@ -97,6 +115,11 @@ class EditProfile extends Component {
       : event.target.value
     this.userData.set(name, value)
     this.setState({ [name]: value });
+  }
+
+  handleCheck = (event, checked) => {
+    this.userData.set("seller",checked);
+    this.setState({seller: checked})
   }
 
   render() {
@@ -133,6 +156,19 @@ class EditProfile extends Component {
             margin="normal"
           /><br/>
           <TextField id="password" type="password" label="Password" className={classes.textField} value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+          <Typography type="subheading" component="h4" className={classes.subheading}>
+            Seller Account
+          </Typography>
+          <FormControlLabel
+            control={
+                <Switch
+              checked={this.state.seller}
+              onChange={this.handleCheck}
+              />
+            }
+            label={this.state.seller? 'Active' : 'Inactive'}
+            className={classes.isSeller}
+          />
         </CardContent>
         <CardActions>
           <Button color="primary" variant="raised" onClick={this.clickSubmit} className={classes.submit}>Submit</Button>

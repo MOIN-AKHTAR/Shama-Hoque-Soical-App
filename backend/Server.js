@@ -3,6 +3,8 @@ const BodyParser=require("body-parser");
 const Cors=require("cors");
 const UserRoute=require("./Routes/UserRoute");
 const PostRoute=require("./Routes/PostRoute");
+const ShopRoute=require("./Routes/ShopRoute");
+
 const Morgan=require("morgan");
 require("./Connection");
 
@@ -15,7 +17,8 @@ App.use(BodyParser.urlencoded({extended:true}));
 App.use(Cors())
 
 App.use("/api/v1/users",UserRoute);
-App.use("/api/v1/posts",PostRoute)
+App.use("/api/v1/posts",PostRoute);
+App.use("/api/v1/shops",ShopRoute);
 
 App.all("*",(req,res)=>{
     res.status(404).json("Path Not Found");

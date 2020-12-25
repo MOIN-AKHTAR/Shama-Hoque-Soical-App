@@ -8,7 +8,6 @@ const fs=require("fs");
 
 exports.signIn=async (req,res)=>{
     try {
-        let token;
         const {isValid,errors}=generateErrorObj(req);
         if(!isValid){
             res.status(400).json({error:errors});
@@ -66,12 +65,12 @@ exports.getUsers=async (req,res)=>{
 exports.getUser=async (req,res)=>res.json(req.profile);
 
 exports.updateUser=(req,res)=>{
-        const form = new formidable();
+        const form = new formidable.IncomingForm();
         form.keepExtensions=true;
         form.parse(req, async (err, fields, files) => {
            try{ 
             let user = req.profile
-            user = _.extend(user, fields)
+            user = _.extend(user, fields);
              if(err){
                  return res.status(400).json({
                      error:err

@@ -13,10 +13,10 @@ const styles=(theme)=>({
     card: {
         margin: 'auto',
         paddingTop: 0,
-        paddingBottom: theme.spacing.unit*3
+        paddingBottom: theme.spacing(3)
       },
       title: {
-        padding:`${theme.spacing.unit * 3}px ${theme.spacing.unit * 2.5}px ${theme.spacing.unit * 2}px`,
+        padding:`${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(2)}px`,
         color: theme.palette.openTitle,
         fontSize: '1em'
       }

@@ -13,8 +13,8 @@ export default function ProfileButtons(props) {
 
     return (<React.Fragment>
           { auth.isAuthenticated()?(props.following
-            ? (<Button variant="raised" color="secondary" onClick={unfollowClick}>Unfollow</Button>)
-            : (<Button variant="raised" color="primary" onClick={followClick}>Follow</Button>)):null
+            ? (<Button variant="text" color="secondary" onClick={unfollowClick}>Unfollow</Button>)
+            : (<Button variant="text" color="primary" onClick={followClick}>Follow</Button>)):null
           }
         </React.Fragment>)
 }

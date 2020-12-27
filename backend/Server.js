@@ -4,6 +4,7 @@ const Cors=require("cors");
 const UserRoute=require("./Routes/UserRoute");
 const PostRoute=require("./Routes/PostRoute");
 const ShopRoute=require("./Routes/ShopRoute");
+const ProductRoute=require("./Routes/ProductRoute");
 
 const Morgan=require("morgan");
 require("./Connection");
@@ -19,6 +20,7 @@ App.use(Cors())
 App.use("/api/v1/users",UserRoute);
 App.use("/api/v1/posts",PostRoute);
 App.use("/api/v1/shops",ShopRoute);
+App.use("/api/v1/products",ProductRoute);
 
 App.all("*",(req,res)=>{
     res.status(404).json("Path Not Found");

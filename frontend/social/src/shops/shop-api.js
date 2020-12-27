@@ -16,7 +16,7 @@ const creatShop=(params,credentials,shop)=>{
 const getAllShops=()=>{
     return fetch("http://localhost:3001/api/v1/shops/",{
         method:"GET"   
-    }).then(res=>res.json()).catch(err=>err.response.data);
+    }).then(res=>res.json()).catch(err=>err.response.data());
 }
 
 const getByOwner=(params,credentials)=>{
@@ -62,11 +62,22 @@ const updateShop=(params,credentials,shop)=>{
 }
 
 
+const getProducts=(params)=>{
+    return fetch("http://localhost:3001/api/v1/products/by/"+params.shopId,{
+        method:"GET",
+        headers:{
+            "Authorization":"application/json"
+        }
+    }).then(res=>res.json()).catch(err=>err.response.data());
+}
+
+
 module.exports={
     creatShop,
     getAllShops,
     getByOwner,
     removeShop,
     getShop,
-    updateShop
+    updateShop,
+    getProducts
 }

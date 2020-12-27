@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch'
 import profileImage from '../assets/images/Anonymous.png'
+import Loader from '../utils/Loader'
 
 
 const styles = theme => ({
@@ -20,21 +21,21 @@ const styles = theme => ({
     maxWidth: 600,
     margin: 'auto',
     textAlign: 'center',
-    marginTop: theme.spacing.unit * 5,
-    paddingBottom: theme.spacing.unit * 2
+    marginTop: theme.spacing(5),
+    paddingBottom: theme.spacing(2)
   },
   title: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     color: theme.palette.protectedTitle
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 300
   },
   submit: {
     margin: 'auto',
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
   },
   input: {
     display: 'none'
@@ -52,7 +53,7 @@ const styles = theme => ({
     margin:"10px auto"
   },
   subheading: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     color: theme.palette.openTitle
   },
   label:{
@@ -71,7 +72,8 @@ class EditProfile extends Component {
       about:'',
       redirectToProfile: false,
       seller:false,
-      error: ''
+      error: '',
+      loading:true
     }
     this.match = match
   }
@@ -83,12 +85,12 @@ class EditProfile extends Component {
       userId: this.match.params.userId
     }, {t: jwt.token}).then((data) => {
       if (data.error) {
-        this.setState({error: data.error})
+        this.setState({error: data.error,loading:false})
       } else {
          this.photoUrl = data._id
     ? `http://localhost:3001/api/v1/users/photo/${data._id}?${new Date().getTime()}`
     : profileImage;
-        this.setState({id: data._id,name: data.name, email: data.email,about:data.about,seller:data.seller})
+        this.setState({id: data._id,name: data.name, email: data.email,about:data.about,seller:data.seller,loading:false})
       }
     })
   }
@@ -129,14 +131,16 @@ class EditProfile extends Component {
     }
     return (
       <Card className={classes.card}>
-        <CardContent>
+        {this.state.loading?<Loader/>:(
+          <React.Fragment>
+          <CardContent>
           <Typography type="headline" component="h2" className={classes.title}>
             Edit Profile
           </Typography>
           <Avatar src={this.photoUrl} className={classes.bigAvatar}/><br/>
           <input accept="image/*" onChange={this.handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
           <label htmlFor="icon-button-file">
-            <Button variant="raised" color="default" component="span">
+            <Button variant="text" color="default" component="span">
               Upload
               <PublishIcon/>
             </Button>
@@ -171,8 +175,10 @@ class EditProfile extends Component {
           />
         </CardContent>
         <CardActions>
-          <Button color="primary" variant="raised" onClick={this.clickSubmit} className={classes.submit}>Submit</Button>
+          <Button color="primary" variant="text" onClick={this.clickSubmit} className={classes.submit}>Submit</Button>
         </CardActions>
+          </React.Fragment>
+        )}
       </Card>
     )
   }

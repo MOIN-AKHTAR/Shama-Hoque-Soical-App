@@ -17,7 +17,8 @@ import IconButton from '@material-ui/core/IconButton';
 import {Link} from 'react-router-dom'
 import {getByOwner} from './shop-api';
 import NoLogoImage from '../assets/images/nologo.jpg';
-import DeleteShop from './DeleteShop'
+import DeleteShop from './DeleteShop';
+import Loader from '../utils/Loader'
 
 
 
@@ -53,13 +54,15 @@ const styles = theme => ({
 
  class MyShops extends Component {
     state={
-        shops:[]
+        shops:[],
+        loading:true
     }
     componentDidMount(){
         const jwt=auth.isAuthenticated();
         getByOwner({userId:jwt.user?._id},{t:jwt.token}).then(data=>{
             this.setState({
-                shops:data
+                shops:data,
+                loading:false
             })
         })
     }
@@ -81,13 +84,15 @@ const styles = theme => ({
         <Typography type="title" className={classes.title}>
           Your Shops
           <span className={classes.addButton}>
+            
             <Link to="/seller/shops/new">
-              <Button color="primary" variant="raised">
+              <Button color="primary" variant="text">
                 <AddBox className={classes.leftIcon}/>  New Shop
               </Button>
             </Link>
           </span>
         </Typography>
+        {this.state.loading?<Loader/>:null}
         <List dense>
         {this.state.shops.map((shop, i) => {
             return   <span key={i}>

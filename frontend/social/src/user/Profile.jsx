@@ -19,16 +19,17 @@ import {Redirect, Link} from 'react-router-dom';
 import profileImage from '../assets/images/Anonymous.png';
 import ProfileButtons from './ProfileButtons';
 import ProfileTabs from './ProfileTabs';
+import Loader from '../utils/Loader'
 
 const styles = theme => ({
   root: theme.mixins.gutters({
     maxWidth: 600,
     margin: 'auto',
-    padding: theme.spacing.unit * 3,
-    marginTop: theme.spacing.unit * 5
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(5)
   }),
   title: {
-    margin: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 2}px`,
+    margin: `${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
     color: theme.palette.protectedTitle
   }
 })
@@ -39,7 +40,8 @@ class Profile extends Component {
     this.state = {
       user: '',
       redirectToSignin: false,
-      following:false
+      following:false,
+      loading:true
     }
     this.match = match
   }
@@ -52,7 +54,7 @@ class Profile extends Component {
         this.setState({redirectToSignin: true})
       } else {
         const isFollowing=this.checkFollow(data)
-        this.setState({user: data,following:isFollowing})
+        this.setState({user: data,following:isFollowing,loading:false})
       }
     })
   }
@@ -105,7 +107,10 @@ class Profile extends Component {
         >
           Profile
         </Typography>
-        <List dense>
+        {this.state.loading?<Loader/>:null}
+        {!this.state.loading&&(
+             <React.Fragment>
+             <List dense>
           <ListItem>
             <ListItemAvatar>
             <Avatar src={this.state.user?("http://localhost:3001/api/v1/users/photo/"+this.state.user._id || profileImage):profileImage} />
@@ -137,6 +142,8 @@ class Profile extends Component {
         <ProfileTabs 
         user={this.state.user}
          />
+             </React.Fragment>
+        )}
       </Paper>
     )
   }

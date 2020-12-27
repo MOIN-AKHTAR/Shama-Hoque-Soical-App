@@ -17,8 +17,8 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 
 const style=(theme)=>({
     cardHeader: {
-        paddingTop: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1)
       },
     smallAvatar:{
         width:25,
@@ -29,8 +29,8 @@ const style=(theme)=>({
       },
     commentText: {
         backgroundColor: 'white',
-        padding: theme.spacing.unit,
-        margin: `2px ${theme.spacing.unit*2}px 2px 2px`
+        padding: theme.spacing(1),
+        margin: `2px ${theme.spacing(2)}px 2px 2px`
       },
       comment:{
         display:"block"

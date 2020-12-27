@@ -13,22 +13,33 @@ import Typography from '@material-ui/core/Typography'
 import ArrowForward from '@material-ui/icons/ArrowForward'
 import profileImage from '../assets/images/Anonymous.png'
 import {Link} from 'react-router-dom'
-import {list} from './user-api'
+import {list} from './user-api';
+import Loader from '../utils/Loader'
 
 const styles = theme => ({
   root: theme.mixins.gutters({
-    padding: theme.spacing.unit,
-    margin: theme.spacing.unit * 5
+    padding: theme.spacing(1),
+    margin: theme.spacing(5),
   }),
+  scroll:{
+    maxWidth:"700px",
+    margin:"30px auto",
+    maxHeight:"700px",
+    overflowY:"scroll",
+    "&::-webkit-scrollbar":{
+      display: "none"
+  }
+  },
   title: {
-    margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`,
+    margin: `${theme.spacing(4)}px 0 ${theme.spacing(2)}px`,
     color: theme.palette.openTitle
   }
 })
 
 class Users extends Component {
   state = {
-      users: []
+      users: [],
+      loading:true
   }
 
   componentDidMount() {
@@ -36,7 +47,7 @@ class Users extends Component {
       if (data.error) {
         console.log(data.error)
       } else {
-        this.setState({users: data})
+        this.setState({users: data,loading:false})
       }
     })
   }
@@ -44,18 +55,19 @@ class Users extends Component {
   render() {
     const {classes} = this.props
     return (
-      <Paper className={classes.root} elevation={4}
-      style={{maxWidth:"700px",margin:"30px auto"}}
+      <Paper className={[classes.root,classes.scroll].join(" ")} elevation={4}
       >
         <Typography type="title" className={classes.title}>
-          All Users
+          {this.state.users.length} users found
         </Typography>
+        {this.state.loading?<Loader />:null}
         <List dense>
          {this.state.users.map((item, i) => {
           return <Link to={"/user/" + item._id} key={i}>
                     <ListItem button>
                       <ListItemAvatar>
-                        <Avatar src={"http://localhost:3001/api/v1/users/photo/"+item._id || profileImage} />
+                        <Avatar src={"http://localhost:3001/api/v1/users/photo/"+item._id || profileImage}
+                       />
                       </ListItemAvatar>
                       <ListItemText primary={item.name}/>
                       <ListItemSecondaryAction>

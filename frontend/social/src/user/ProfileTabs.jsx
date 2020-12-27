@@ -8,7 +8,7 @@ import MyPosts from './MyPosts'
 
 class ProfileTabs extends Component {
   state = {
-    tab: 1,
+    tab: 0,
     posts: []
   }
 

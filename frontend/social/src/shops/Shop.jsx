@@ -3,10 +3,11 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import CardContent from '@material-ui/core/CardContent'
-import Avatar from '@material-ui/core/Avatar'
+import Avatar from '@material-ui/core/Avatar';
 import withStyles from '@material-ui/core/styles/withStyles'
 import NoLogoImage from '../assets/images/nologo.jpg';
-import {getShop} from './shop-api'
+import {getShop,getProducts} from './shop-api';
+import Products from '../products/Products'
 
 
 const styles=(theme)=>({
@@ -30,22 +31,47 @@ const styles=(theme)=>({
         width: 100,
         height: 100,
         margin: 'auto'
+      },
+      leftIcon:{
+        marginRight:"10px"
+      },
+      link:{
+        textDecoration:"none"
+      },
+      productTitle: {
+        padding:`${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(1)}px ${theme.spacing(2)}px`,
+        color: theme.palette.openTitle,
+        width: '100%',
+        fontSize: '1.2em'
       }
 })
 
  class Shop extends Component {
 
     state={
-        shop:{
-            name:"My Shoe Shop",
-            descriprion:"Gte you favourite shoe here on appropriate price"
-        }
+        shop:{},
+        products:[]
     }
 
-    componentDidMount(){
-        getShop({shopId:this.props.match.params.shopId}).then(data=>{
-            this.setState({shop:data})
+    loadShop=()=>{
+      getShop({shopId:this.props.match.params.shopId}).then(data=>{
+        this.setState({shop:data})
+    })
+    }
+
+    loadProducts=()=>{
+      getProducts({shopId:this.props.match.params.shopId}).then(data=>{
+        this.setState({
+          products:data
         })
+      })
+    }
+
+    
+
+    componentDidMount(){
+        this.loadShop();
+        this.loadProducts();
     }
 
     render() {
@@ -55,7 +81,7 @@ const styles=(theme)=>({
         return (
             <div className={classes.root}>
                 <Grid container spacing={2}>
-                   <Grid xs={4} item> 
+                   <Grid xs={12} md={4} item> 
                        <Card className={classes.card}>
                    <CardContent>
                       <Typography type="headline" component="h2" className={classes.title}>
@@ -69,8 +95,14 @@ const styles=(theme)=>({
             </CardContent>
           </Card>
             </Grid>
-            <Grid item>
-            <Typography>PRODUCT LISTS</Typography>
+
+            <Grid item xs={12} md={8}>
+            <Card>
+            <Typography variant="h2" className={classes.productTitle}>PRODUCTS</Typography>
+             <Products 
+             products={this.state.products}
+             />
+             </Card>
             </Grid>
               </Grid>
             </div>

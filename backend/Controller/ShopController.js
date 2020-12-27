@@ -48,6 +48,11 @@ exports.getAllShops=async (req,res)=>{
 exports.getShopById=async (req,res,next,id)=>{
     try {
         const Shop=await ShopModel.findById(id).populate("owner","_id name");
+        if(!Shop){
+            return res.status(404).json({
+                error:"Couldn't Find Any Shop With This Id"
+            })
+        }
         req.shop=Shop;
         next();
     } catch (error) {

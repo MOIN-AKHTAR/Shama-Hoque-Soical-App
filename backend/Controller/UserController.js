@@ -77,6 +77,7 @@ exports.updateUser=(req,res)=>{
                  })
              }
              if(files.photo){
+                 console.log(files.photo.path)
                 user.photo.data = fs.readFileSync(files.photo.path)
                 user.photo.contentType = files.photo.type
               }
@@ -212,5 +213,5 @@ exports.removeFollower=async(req,res)=>{
         })
       }
       res.json(users)
-    }).select('name')
+    }).select('name').limit(5);
   }

@@ -9,7 +9,7 @@ import profileImage from '../assets/images/Anonymous.png';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit*2,
+    paddingTop: theme.spacing(2),
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',

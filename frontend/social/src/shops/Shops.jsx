@@ -9,7 +9,8 @@ import {Link} from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import NoLogoImage from '../assets/images/nologo.jpg'
+import NoLogoImage from '../assets/images/nologo.jpg';
+import Loader from '../utils/Loader'
 
 const styles=(theme)=>({
     root:{
@@ -18,6 +19,14 @@ const styles=(theme)=>({
         padding: theme.spacing(3),
         maxWidth:"80%"
     },
+    scroll:{
+        maxWidth:"700px",
+        margin:"30px auto",
+        maxHeight:"700px",
+        overflowY:"scroll",
+        "&::-webkit-scrollbar":{
+          display: "none"
+      }},
     title: {
         margin: `${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
         color: theme.palette.protectedTitle,
@@ -46,7 +55,6 @@ const styles=(theme)=>({
 
     componentDidMount(){
         getAllShops().then(data=>{
-            console.log(data)
             this.setState({
                 shops:data,
                 loading:false
@@ -59,8 +67,9 @@ const styles=(theme)=>({
         const {classes}=this.props;
         return (
             <div >
-                <Paper className={classes.root} elevation={4}>
-                  <Typography type="title" className={classes.title} >All Shops</Typography>
+                <Paper className={[classes.root,classes.scroll].join(" ")} elevation={4}>
+                  <Typography type="title" className={classes.title} >{this.state.shops.length} shops found</Typography>
+                  {this.state.loading?<Loader/>:null}
                  <List>
                     {
                     this.state.shops.map(shop=>(

@@ -19,19 +19,18 @@ import profileImage from '../assets/images/Anonymous.png'
 
 const styles = theme => ({
   root: theme.mixins.gutters({
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     margin: 0
   }),
   title: {
-    margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-    color: theme.palette.openTitle,
-    fontSize: '1em'
+    margin: `${theme.spacing(2)}px ${theme.spacing(1)}px ${theme.spacing(0.5)}px`,
+    color: theme.palette.openTitle
   },
   avatar: {
-    marginRight: theme.spacing.unit * 1
+    marginRight: theme.spacing(1)
   },
   follow: {
-    right: theme.spacing.unit * 2
+    right: theme.spacing(2)
   },
   snack: {
     color: theme.palette.protectedTitle
@@ -82,7 +81,7 @@ class FindPeople extends Component {
     const {classes} = this.props
     return (<div>
       <Paper className={classes.root} elevation={4}>
-        <Typography type="title" className={classes.title}>
+        <Typography type="title" variant="h5" className={classes.title}>
           Who to follow
         </Typography>
         <List>
@@ -95,11 +94,11 @@ class FindPeople extends Component {
                   <ListItemText primary={item.name}/>
                   <ListItemSecondaryAction className={classes.follow}>
                     <Link to={"/user/" + item._id}>
-                      <IconButton variant="raised" color="secondary" className={classes.viewButton}>
+                      <IconButton variant="text" color="secondary" className={classes.viewButton}>
                         <ViewIcon/>
                       </IconButton>
                     </Link>
-                    <Button aria-label="Follow" variant="raised" color="primary" onClick={this.clickFollow.bind(this, item, i)}>
+                    <Button aria-label="Follow" variant="text" color="primary" onClick={this.clickFollow.bind(this, item, i)}>
                       Follow
                     </Button>
                   </ListItemSecondaryAction>

@@ -11,8 +11,11 @@ import CardActions from '@material-ui/core/CardActions'
 import {Redirect} from 'react-router-dom'
 import NoLogoImage from '../assets/images/nologo.jpg';
 import auth from '../auth/auth-helper'
-import {getShop,updateShop} from './shop-api';
-import PublishIcon from '@material-ui/icons/Publish'
+import {getShop,updateShop,getProducts} from './shop-api';
+import PublishIcon from '@material-ui/icons/Publish';
+import MyProducts from './MyProducts'
+import { Paper } from '@material-ui/core';
+import Loader from '../utils/Loader';
 
 
 const styles=(theme)=>({
@@ -42,6 +45,7 @@ const styles=(theme)=>({
         margin: '10px auto'
       },
       textField:{
+          maxWidth:"100%",
           width:"400px"
       },
       submit: {
@@ -61,21 +65,35 @@ const styles=(theme)=>({
        redirect:false,
        error:{},
        owner:"",
-       changed:false
+       changed:false,
+       products:[],
+       loading:true
     }
 
     componentDidMount(){
         this.shopData=new FormData();
-        getShop({shopId:this.props.match.params.shopId}).then(data=>{
-            this.logo=data.logo;
-            this.setState({
-                id:data._id,
-                name:data.name,
-                logo:data.logo,
-                description:data.description,
-                owner: data.owner.name
-            })
+        this.loadShop();
+        this.loadProducts();
+    }
+
+    loadShop=()=>{
+      getShop({shopId:this.props.match.params.shopId}).then(data=>{
+        this.logo=data.logo;
+        this.setState({
+            id:data._id,
+            name:data.name,
+            logo:data.logo,
+            description:data.description,
+            owner: data.owner?.name,
+            loading:false
         })
+    })
+    }
+
+    loadProducts=()=>{
+      getProducts({shopId:this.props.match.params.shopId}).then(data=>{
+        this.setState({products:data});
+      })
     }
 
 
@@ -88,6 +106,14 @@ const styles=(theme)=>({
             changed:true
         })
    }
+
+
+   removeProduct = (product) => { 
+    const updatedProducts = this.state.products ;
+    const index = updatedProducts.indexOf(product);
+    updatedProducts.splice(index, 1) ;
+    this.setState({shops: updatedProducts}) 
+  }
 
    customValidation=(body)=>{
     let error={};
@@ -128,9 +154,13 @@ clickSubmit=(event)=>{
               }
     
             return (
-<div className={classes.root}>
+                <React.Fragment>
+                  {this.state.loading?<Loader/>
+                  :
+                  (
+                    <div className={classes.root}>
     <Grid container spacing={4}>
-       <Grid itme xs={6}>
+       <Grid item xs={12}  md={4} >
           <Card  className={classes.card}>
             <CardContent>
                 <Typography
@@ -168,7 +198,7 @@ clickSubmit=(event)=>{
                 <TextField 
                 id="description"
                 label="Shop Description"
-                multiline rows={2}
+                multiline
                 className={classes.textField}
                 value={this.state.description}
                 onChange={this.handleChange('description')}
@@ -189,11 +219,18 @@ clickSubmit=(event)=>{
                 </CardActions>
                 </Card>
                     </Grid>
-                    <Grid item>
-                        PRODUCT LIST
+                    <Grid item xs={12} md={8}>
+                        <MyProducts
+                        products={this.state.products} 
+                        shopId={this.props.match.params.shopId}
+                        searched={false}
+                        onRemove={this.removeProduct}
+                        />
                     </Grid>
                        </Grid>
                           </div>
+                  )}
+                </React.Fragment>
                 
             )
         }

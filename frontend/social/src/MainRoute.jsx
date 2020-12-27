@@ -13,6 +13,9 @@ import Shops from './shops/Shops'
 import MyShops from './shops/MyShops';
 import Shop from './shops/Shop'
 import EditShop from './shops/EditShop';
+import NewProduct from './products/NewProduct';
+import Product from './products/Product';
+import EditProduct from './products/EditProduct';
 
 export default function MainRoute() {
     return (
@@ -24,9 +27,12 @@ export default function MainRoute() {
                 <Route path="/signup" component={Signup}/>
                 <Route path="/signin" component={Signin}/>
                 <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
+                <Route path="/product/:productId" component={Product}/>
                 <PrivateRoute path="/seller/shops" exact  component={MyShops} />
-                <PrivateRoute path="/seller/shops/new" exact component={NewShop}/>
-                <PrivateRoute path="/seller/shop/edit/:shopId" exact component={EditShop}/>
+                <PrivateRoute path="/seller/shops/new"  component={NewShop}/>
+                <PrivateRoute path="/seller/shop/edit/:shopId"  component={EditShop}/>
+                <PrivateRoute path="/seller/shop/:shopId/product/:productId/edit"  component={EditProduct}/>
+                <PrivateRoute path="/seller/:shopId/products/new"  component={NewProduct}/>
                 <Route path="/shops/all" exact component={Shops}/>
                 <Route path="/shops/:shopId" exact component={Shop}/>
                 <Route path="/user/:userId" component={Profile}/>

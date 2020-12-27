@@ -125,3 +125,54 @@ exports.updateProduct=(req,res)=>{
         }
     })
 }
+
+
+exports.distinctCategory=async (req,res)=>{
+     try {
+         const categories=await ProductModel.distinct("category",{});
+         res.status(200).json(categories);
+     } catch (error) {
+         res.status(500).json(error);
+     }
+}
+
+
+exports.serchedList= async (req, res) => {
+   try {
+    const query = {}
+    if(req.query.search){
+        query.name = {'$regex': req.query.search, '$options': "i"}
+        if(req.query.category && req.query.category != 'All')
+          {query.category =  req.query.category
+        const products=await ProductModel.find(query).populate('productShop', '_id name');
+          res.json(products)
+        }
+          else{
+            const products=await ProductModel.find({}).populate('productShop', '_id name');
+            res.json(products)
+          }
+    }else{
+        if(req.query.category!=="All"){
+            const products=await ProductModel.find({category:req.query.category}).populate('productShop', '_id name');
+            res.json(products)
+        }else{
+            const products=await ProductModel.find({}).populate('productShop', '_id name');
+            res.json(products)
+        }
+       
+    }
+   } catch (error) {
+       res.status(500).json(error);
+   }
+  }
+
+
+exports.getProductList=async (req,res)=>{
+    try {
+        const category=req.query.category;
+        const products=await ProductModel.find({category}).populate('productShop', '_id name');
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}

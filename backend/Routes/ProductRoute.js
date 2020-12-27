@@ -1,7 +1,7 @@
 const Express=require("express");
 const {requireSignin}=require("../Controller/UserController");
 const {isOwner,getShopById}=require("../Controller/ShopController");
-const {createProduct,getByShop,getById,getImage,deleteProduct,isProductOwner,getLatestProducts,getProduct,updateProduct}=require("../Controller/ProductController");
+const {createProduct,getByShop,getById,getImage,deleteProduct,isProductOwner,getLatestProducts,getProduct,updateProduct,distinctCategory,serchedList,getProductList}=require("../Controller/ProductController");
 
 const Router=Express.Router();
 
@@ -14,6 +14,10 @@ Router.route("/:shopId/:productId")
 ;
 
 Router.route("/latest").get(getLatestProducts);
+Router.route("/categories").get(distinctCategory);
+Router.route("/list").get(getProductList)
+
+Router.route("/search").get(serchedList);
 
 Router.route("/by/:shopId").get(getByShop);
 Router.route("/image/:productId").get(getImage);

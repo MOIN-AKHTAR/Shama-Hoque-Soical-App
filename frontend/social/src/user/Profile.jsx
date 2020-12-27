@@ -139,9 +139,7 @@ class Profile extends Component {
               new Date(this.state.user.createdAt)).toDateString()}/>
           </ListItem>
         </List>
-        <ProfileTabs 
-        user={this.state.user}
-         />
+        {/* <ProfileTabs  user={this.state.user}/> */}
              </React.Fragment>
         )}
       </Paper>

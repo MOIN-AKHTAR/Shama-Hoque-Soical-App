@@ -3,6 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Typography from '@material-ui/core/Typography'
 import {Link} from 'react-router-dom';
 import NoLogo from '../assets/images/nologo.jpg';
 
@@ -51,7 +52,8 @@ const styles = theme => ({
 })
 class Products extends Component {
   render() {
-    const {classes} = this.props
+    const {classes} = this.props;
+    console.log(this.props)
     return (
       <div className={classes.root}>
       {this.props.products?.length > 0 ?
@@ -67,7 +69,7 @@ class Products extends Component {
               />
             </GridListTile>
           ))}
-        </GridList></div>):null
+        </GridList></div>):this.props.searched && (<Typography type="subheading" component="h4" className={classes.title}>No products found! :(</Typography>)
   }
       </div>)
   }

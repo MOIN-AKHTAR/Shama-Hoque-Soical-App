@@ -8,12 +8,15 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import seashellImg from '../assets/images/seashell.jpg';
 import auth from '../auth/auth-helper';
-import FindPeople from '../user/FindPeopls'
-import NewFeed from '../posts/newFeed'
+// import FindPeople from '../user/FindPeopls'
+// import NewFeed from '../posts/newFeed'
 import Suggestion from '../products/Suggestion';
 import {getLatestProducts} from '../products/product-api'
 import Paper from '@material-ui/core/Paper'
-import Loader from '../utils/Loader'
+import Loader from '../utils/Loader';
+import Search from '../products/Search';
+import {getCategories} from '../products/product-api'
+import Categories from '../products/Categories'
 
 const styles = theme => ({
   card: {
@@ -31,9 +34,8 @@ const styles = theme => ({
   paper:{
     width: "600px",
     margin: "20px auto",
-    padding: "20px 0px !important",
-    border: "none",
     padding: "20px 0px",
+    border: "none",
     boxShadow: "none"
   }
 })
@@ -42,11 +44,21 @@ class Home extends Component {
   state={
     defaultPage:true,
     products:[],
+    categories:[],
     loading:true
   }
 
-  init = () => {
-  if(auth.isAuthenticated()){
+
+  listCategories=()=>{
+    getCategories().then(data=>{
+      this.setState({
+        loading:false,
+        categories:data
+      })
+    })
+  }
+
+  listLatestProducts=()=>{
     getLatestProducts().then(data=>{
       if(data.error){
         this.setState({
@@ -61,6 +73,12 @@ class Home extends Component {
         })
       }
     })
+  }
+
+  init = () => {
+  if(auth.isAuthenticated()){
+      this.listLatestProducts();
+      this.listCategories();
   }else{
     this.setState({defaultPage: true,loading:false})}
   }
@@ -99,11 +117,13 @@ class Home extends Component {
         {!this.state.defaultPage &&
          <div style={{margin:"20px"}}>
          <Grid container spacing={2} justify="center">
-            <Grid item xs={12} sm={8} md={6} >
-              <NewFeed />
+            <Grid item xs={12} sm={8}  >
+              <Search categories={this.state.categories} />
+              <Categories categories={this.state.categories} />
+              {/* <NewFeed /> */}
             </Grid>
-            <Grid item xs={10} sm={8} md={6}>
-              <FindPeople/>
+            <Grid item xs={12} sm={8} md={4} >
+              {/* <FindPeople/> */}
               <Suggestion
               products={this.state.products}
               title="Latest Products"

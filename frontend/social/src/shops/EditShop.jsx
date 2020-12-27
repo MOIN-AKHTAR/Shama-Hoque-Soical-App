@@ -14,7 +14,6 @@ import auth from '../auth/auth-helper'
 import {getShop,updateShop,getProducts} from './shop-api';
 import PublishIcon from '@material-ui/icons/Publish';
 import MyProducts from './MyProducts'
-import { Paper } from '@material-ui/core';
 import Loader from '../utils/Loader';
 
 

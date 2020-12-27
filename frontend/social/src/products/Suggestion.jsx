@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   card: {
     width: '100%',
-    display: 'inline-flex'
+    display: 'inline-flex',
   },
   details: {
     display: 'inline-block',

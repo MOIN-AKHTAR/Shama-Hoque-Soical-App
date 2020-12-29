@@ -12,16 +12,16 @@ const signin = (user) => {
       }).catch((err) => err.response.data())
   }
   
-  const signout = () => {
-    return fetch('http://localhost:3001/api/v1/users/signout/', {
-      method: 'POST',
-    }).then(response => {
-        return response.json()
-    }).catch((err) => err.response.data())
-  }
+  // const signout = () => {
+  //   return fetch('http://localhost:3001/api/v1/users/signout/', {
+  //     method: 'POST',
+  //   }).then(response => {
+  //       return response.json()
+  //   }).catch((err) => err.response.data())
+  // }
   
   export {
     signin,
-    signout
+    // signout
   }
   

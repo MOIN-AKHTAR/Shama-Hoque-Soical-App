@@ -42,7 +42,7 @@ const styles = theme => ({
 
 class Home extends Component {
   state={
-    defaultPage:true,
+    defaultPage:false,
     products:[],
     categories:[],
     loading:true
@@ -97,7 +97,7 @@ class Home extends Component {
           {this.state.loading?(<Paper className={classes.paper}><Loader/></Paper>)
        :(
           <React.Fragment>
-        {this.state.defaultPage &&
+        {this.state.defaultPage&&!this.state.loading&&
           <Grid container >
             <Grid item xs={12}>
             <Card className={classes.card}>
@@ -120,10 +120,8 @@ class Home extends Component {
             <Grid item xs={12} sm={8}  >
               <Search categories={this.state.categories} />
               <Categories categories={this.state.categories} />
-              {/* <NewFeed /> */}
             </Grid>
             <Grid item xs={12} sm={8} md={4} >
-              {/* <FindPeople/> */}
               <Suggestion
               products={this.state.products}
               title="Latest Products"

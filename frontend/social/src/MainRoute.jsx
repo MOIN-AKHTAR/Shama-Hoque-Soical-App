@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {Switch,Route} from 'react-router-dom';
 import Home from './core/Home';
 import Menu from './core/Menu';
@@ -16,6 +16,7 @@ import EditShop from './shops/EditShop';
 import NewProduct from './products/NewProduct';
 import Product from './products/Product';
 import EditProduct from './products/EditProduct';
+import Cart from './cart/Cart';
 
 export default function MainRoute() {
     return (
@@ -26,6 +27,7 @@ export default function MainRoute() {
                 <Route path="/users" component={Users}/>
                 <Route path="/signup" component={Signup}/>
                 <Route path="/signin" component={Signin}/>
+                <PrivateRoute path="/cart" component={Cart}/>
                 <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
                 <Route path="/product/:productId" component={Product}/>
                 <PrivateRoute path="/seller/shops" exact  component={MyShops} />

@@ -1,4 +1,4 @@
-import { signout } from './api-auth.js';
+import {emptyCart} from '../cart/cart-api'
 
 const auth = {
   isAuthenticated() {
@@ -12,17 +12,16 @@ const auth = {
   },
   authenticate(jwt, cb) {
     if (typeof window !== "undefined")
-      sessionStorage.setItem('jwt', JSON.stringify(jwt))
+      sessionStorage.setItem('jwt', JSON.stringify(jwt));
     cb()
   },
   signout(cb) {
-    if (typeof window !== "undefined")
-      sessionStorage.removeItem('jwt')
-    cb()
-    //optional
-    signout().then((data) => {
-      document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-    })
+    if (typeof window !== "undefined"){
+      sessionStorage.removeItem('jwt');
+      emptyCart()
+       cb()
+    }
+      
   },
   updateUse(user,cb){
     if(typeof window !== "undefined"){

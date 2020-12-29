@@ -11,7 +11,7 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia';
 import NoLogo from '../assets/images/nologo.jpg'
-// import AddToCart from './../cart/AddToCart'
+import AddToCart from './../cart/AddToCart'
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -121,7 +121,9 @@ class Suggestion extends Component {
                             <ViewIcon className={classes.iconButton}/>
                           </IconButton>
                         </Link>
-                        {/* <AddToCart item={item}/> */}
+                        <AddToCart
+                         item={item}
+                        />
                       </span>
                     </div>
                   </div>

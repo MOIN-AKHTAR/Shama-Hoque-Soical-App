@@ -35,7 +35,8 @@ const styles = theme => ({
   searchButton: {
     minWidth: '20px',
     height: '30px',
-    padding: '0 8px'
+    padding: '0 8px',
+    marginBottom:"10px"
   }
 })
 

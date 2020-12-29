@@ -15,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import NoLogo from '../assets/images/nologo.jpg';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import AddToCart from '../cart/AddToCart'
 
 const styles = theme => ({
   root: {
@@ -80,7 +81,6 @@ class Product extends Component {
   }
   loadProduct = (productId) => {
       getProduct({productId: productId}).then(data=>{
-          console.log(data)
           if(data.error){
               console.log(data.error);
           }
@@ -121,11 +121,13 @@ class Product extends Component {
                 <CardHeader
                   title={this.state.product.name}
                   subheader={this.state.product.quantity > 0? 'In Stock': 'Out of Stock'}
-                  action={this.state.product.quantity>0&&(
-                     <IconButton>
-                         <AddShoppingCartIcon className={classes.addCart} />
-                     </IconButton>
-                  )}
+                  action={<span>
+                    <AddToCart 
+                    item={this.state.product}
+                    cartStyle={classes.addCart}
+                     />
+                  </span>
+                  }
                 />
                 <div className={classes.flex}>
                   <CardMedia

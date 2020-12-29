@@ -6,6 +6,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Typography from '@material-ui/core/Typography'
 import {Link} from 'react-router-dom';
 import NoLogo from '../assets/images/nologo.jpg';
+import AddToCart from '../cart/AddToCart'
 
 const styles = theme => ({
   root: {
@@ -65,6 +66,13 @@ class Products extends Component {
               <GridListTileBar className={classes.tileBar}
                 title={<Link to={"/product/"+product._id} className={classes.tileTitle}>{product.name}</Link>}
                 subtitle={<span>$ {product.price}</span>}
+                actionIcon={
+                  <span>
+                    <AddToCart  
+                    item={product}
+                    />
+                  </span>
+                }
                //Add To Cart Component Will Come Here
               />
             </GridListTile>
